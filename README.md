@@ -1,56 +1,280 @@
-[![Banner](https://codecrafters.io/images/updated-byox-banner.gif)](https://codecrafters.io/github-banner)
+# 在线编程学习平台 (Online Programming Learning Platform)
 
-## Build your own &lt;insert-technology-here&gt;
+一个全面的在线编程学习平台，支持多种编程语言的学习、代码编辑、在线执行和进度跟踪。
 
-This repository is a compilation of well-written, step-by-step guides for re-creating our favorite technologies from scratch. 
+## 🚀 项目概述
 
-> *What I cannot create, I do not understand — Richard Feynman.*
+本项目是一个现代化的在线编程学习平台，采用微服务架构设计，提供完整的编程学习解决方案。
 
-It's a great way to learn.
+### ✨ 核心特性
 
-* [3D Renderer](#build-your-own-3d-renderer)
-* [Augmented Reality](#build-your-own-augmented-reality)
-* [BitTorrent Client](#build-your-own-bittorrent-client)
-* [Blockchain / Cryptocurrency](#build-your-own-blockchain--cryptocurrency)
-* [Bot](#build-your-own-bot)
-* [Command-Line Tool](#build-your-own-command-line-tool)
-* [Database](#build-your-own-database)
-* [Docker](#build-your-own-docker)
-* [Emulator / Virtual Machine](#build-your-own-emulator--virtual-machine)
-* [Front-end Framework / Library](#build-your-own-front-end-framework--library)
-* [Game](#build-your-own-game)
-* [Git](#build-your-own-git)
-* [Network Stack](#build-your-own-network-stack)
-* [Neural Network](#build-your-own-neural-network)
-* [Operating System](#build-your-own-operating-system)
-* [Physics Engine](#build-your-own-physics-engine)
-* [Programming Language](#build-your-own-programming-language)
-* [Regex Engine](#build-your-own-regex-engine)
-* [Search Engine](#build-your-own-search-engine)
-* [Shell](#build-your-own-shell)
-* [Template Engine](#build-your-own-template-engine)
-* [Text Editor](#build-your-own-text-editor)
-* [Visual Recognition System](#build-your-own-visual-recognition-system)
-* [Voxel Engine](#build-your-own-voxel-engine)
-* [Web Browser](#build-your-own-web-browser)
-* [Web Server](#build-your-own-web-server)
-* [Uncategorized](#uncategorized)
+- **多语言支持**: Java, Python, JavaScript 等主流编程语言
+- **在线代码编辑器**: 基于 Monaco Editor，支持语法高亮、智能提示
+- **安全代码执行**: Docker 容器隔离执行环境，确保安全性
+- **实时进度跟踪**: 详细的学习进度和性能分析
+- **多数据库架构**: MySQL + PostgreSQL + MongoDB + Redis
+- **JWT 认证**: 安全的用户认证和授权系统
+- **响应式设计**: 支持桌面端和移动端访问
 
-## Tutorials
+## 🏗️ 技术架构
 
-#### Build your own `3D Renderer`
+### 后端技术栈
+- **框架**: Spring Boot 3.x + JDK 17
+- **安全**: Spring Security + JWT
+- **数据库**: MySQL (主) + PostgreSQL (分析) + MongoDB (文档) + Redis (缓存)
+- **ORM**: MyBatis
+- **容器化**: Docker + Docker Compose
+- **API文档**: OpenAPI 3.0 (Swagger)
 
-* [**C++**: _Introduction to Ray Tracing: a Simple Method for Creating 3D Images_](https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-ray-tracing/how-does-it-work)
-* [**C++**: _How OpenGL works: software rendering in 500 lines of code_](https://github.com/ssloy/tinyrenderer/wiki)
-* [**C++**: _Raycasting engine of Wolfenstein 3D_](http://lodev.org/cgtutor/raycasting.html)
-* [**C++**: _Physically Based Rendering:From Theory To Implementation_](http://www.pbr-book.org/)
-* [**C++**: _Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-* [**C++**: _Rasterization: a Practical Implementation_](https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/overview-rasterization-algorithm)
-* [**C# / TypeScript / JavaScript**: _Learning how to write a 3D soft engine from scratch in C#, TypeScript or JavaScript_](https://www.davrous.com/2013/06/13/tutorial-series-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-typescript-or-javascript/)
-* [**Java / JavaScript**: _Build your own 3D renderer_](https://avik-das.github.io/build-your-own-raytracer/)
-* [**Java**: _How to create your own simple 3D render engine in pure Java_](http://blog.rogach.org/2015/08/how-to-create-your-own-simple-3d-render.html)
-* [**JavaScript / Pseudocode**: _Computer Graphics from scratch_](http://www.gabrielgambetta.com/computer-graphics-from-scratch/introduction.html)
-* [**Python**: _A 3D Modeller_](http://aosabook.org/en/500L/a-3d-modeller.html)
+### 前端技术栈
+- **框架**: Vue.js 3 + Vite
+- **UI组件**: Element Plus
+- **状态管理**: Pinia
+- **代码编辑器**: Monaco Editor + CodeMirror
+- **HTTP客户端**: Axios
+- **构建工具**: Vite
+
+### 数据库设计
+- **MySQL**: 用户数据、课程信息、学习进度
+- **PostgreSQL**: 代码执行记录、性能分析数据
+- **MongoDB**: 课程内容、代码模板、用户笔记
+- **Redis**: 会话缓存、JWT令牌、热点数据
+
+## 📁 项目结构
+
+```
+online-programming-platform/
+├── backend/                    # Spring Boot 后端
+│   ├── src/main/java/
+│   │   ├── config/            # 配置类
+│   │   ├── controller/        # REST API 控制器
+│   │   ├── service/           # 业务逻辑层
+│   │   ├── mapper/            # MyBatis 映射器
+│   │   ├── entity/            # 实体类
+│   │   ├── dto/               # 数据传输对象
+│   │   ├── security/          # 安全配置
+│   │   └── exception/         # 异常处理
+│   └── src/main/resources/
+│       ├── mapper/            # MyBatis XML 映射
+│       └── application.yml    # 应用配置
+├── frontend/                   # Vue.js 前端
+│   ├── src/
+│   │   ├── components/        # Vue 组件
+│   │   ├── views/             # 页面视图
+│   │   ├── stores/            # Pinia 状态管理
+│   │   ├── api/               # API 调用
+│   │   └── utils/             # 工具函数
+│   └── package.json
+├── docker/                     # Docker 配置
+│   ├── code-execution/        # 代码执行环境
+│   │   ├── java/
+│   │   ├── python/
+│   │   └── javascript/
+│   └── docker-compose.yml
+├── database/                   # 数据库脚本
+│   ├── mysql/
+│   ├── postgresql/
+│   └── mongodb/
+└── README.md
+```
+
+## 🚀 快速开始
+
+### 环境要求
+
+- **Java**: JDK 17+
+- **Node.js**: 18+
+- **Docker**: 20.10+
+- **Docker Compose**: 2.0+
+- **Maven**: 3.8+
+
+### 安装步骤
+
+1. **克隆项目**
+```bash
+git clone https://github.com/your-username/online-programming-platform.git
+cd online-programming-platform
+```
+
+2. **启动数据库服务**
+```bash
+docker-compose up -d mysql postgresql mongodb redis
+```
+
+3. **启动后端服务**
+```bash
+cd backend
+mvn clean install
+mvn spring-boot:run
+```
+
+4. **启动前端服务**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+5. **访问应用**
+- 前端应用: http://localhost:3000
+- 后端API: http://localhost:8080/api
+- API文档: http://localhost:8080/api/swagger-ui.html
+
+### Docker 部署
+
+使用 Docker Compose 一键部署整个应用：
+
+```bash
+docker-compose up -d
+```
+
+## 📊 数据库设计
+
+### MySQL 主数据库表结构
+
+- `users` - 用户信息表
+- `courses` - 课程信息表
+- `chapters` - 课程章节表
+- `lessons` - 课时表
+- `user_courses` - 用户课程关联表
+- `user_progress` - 学习进度表
+- `course_reviews` - 课程评价表
+
+### PostgreSQL 分析数据库
+
+- `code_submissions` - 代码提交记录
+- `execution_results` - 代码执行结果
+- `performance_analytics` - 性能分析数据
+- `learning_behavior_analytics` - 学习行为分析
+
+### MongoDB 文档数据库
+
+- `lesson_content` - 课程内容文档
+- `code_templates` - 代码模板
+- `user_notes` - 用户笔记
+- `exercises` - 练习题
+
+## 🔧 API 接口
+
+### 认证相关
+- `POST /api/auth/register` - 用户注册
+- `POST /api/auth/login` - 用户登录
+- `POST /api/auth/refresh` - 刷新令牌
+- `POST /api/auth/logout` - 用户登出
+
+### 课程管理
+- `GET /api/courses` - 获取课程列表
+- `GET /api/courses/{id}` - 获取课程详情
+- `POST /api/courses` - 创建课程
+- `PUT /api/courses/{id}` - 更新课程
+- `DELETE /api/courses/{id}` - 删除课程
+
+### 代码执行
+- `POST /api/code/execute` - 执行代码
+- `GET /api/code/templates/{language}` - 获取代码模板
+- `GET /api/code/submissions` - 获取提交记录
+
+## 🔒 安全特性
+
+- **JWT认证**: 无状态的用户认证
+- **角色权限**: 基于角色的访问控制
+- **代码沙箱**: Docker容器隔离执行环境
+- **输入验证**: 严格的参数验证和过滤
+- **SQL注入防护**: MyBatis预编译语句
+- **XSS防护**: 前端输入过滤和转义
+
+## 🧪 测试
+
+### 后端测试
+```bash
+cd backend
+mvn test
+```
+
+### 前端测试
+```bash
+cd frontend
+npm run test
+```
+
+### 集成测试
+```bash
+docker-compose -f docker-compose.test.yml up --abort-on-container-exit
+```
+
+## 📈 性能优化
+
+- **数据库优化**: 索引优化、查询优化、连接池配置
+- **缓存策略**: Redis多级缓存、热点数据预加载
+- **前端优化**: 代码分割、懒加载、CDN加速
+- **容器优化**: 多阶段构建、镜像优化
+
+## 🔍 监控和日志
+
+- **应用监控**: Spring Boot Actuator
+- **性能监控**: Micrometer + Prometheus
+- **日志管理**: Logback + ELK Stack
+- **错误追踪**: 全局异常处理
+
+## 🤝 贡献指南
+
+1. Fork 项目
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 👥 团队
+
+- **项目负责人**: Programming Platform Team
+- **后端开发**: Spring Boot + MyBatis
+- **前端开发**: Vue.js + Element Plus
+- **DevOps**: Docker + CI/CD
+
+## 📞 联系我们
+
+- **项目地址**: https://github.com/your-username/online-programming-platform
+- **问题反馈**: https://github.com/your-username/online-programming-platform/issues
+- **邮箱**: dev@programmingplatform.com
+
+---
+
+## 🎯 路线图
+
+### v1.0 (当前版本)
+- ✅ 用户认证和授权
+- ✅ 课程管理系统
+- ✅ 代码编辑器
+- ✅ 代码执行引擎
+- ✅ 基础学习进度跟踪
+
+### v1.1 (计划中)
+- 🔄 实时协作编程
+- 🔄 AI 代码助手
+- 🔄 移动端 APP
+- 🔄 视频直播功能
+
+### v2.0 (未来版本)
+- 📋 机器学习推荐系统
+- 📋 代码质量分析
+- 📋 竞赛系统
+- 📋 社区功能
+
+## 🌟 致谢
+
+感谢所有为这个项目做出贡献的开发者和用户！
+
+特别感谢以下开源项目：
+- Spring Boot
+- Vue.js
+- Element Plus
+- Monaco Editor
+- Docker
+
 
 #### Build your own `Augmented Reality`
 
