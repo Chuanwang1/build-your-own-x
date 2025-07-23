@@ -1,0 +1,176 @@
+version: '3.8'
+
+services:
+  # MySQL 主数据库
+  mysql:
+    image: mysql:8.0
+    container_name: programming_platform_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 8888
+      MYSQL_DATABASE: programming_platform
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: 8888
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - platform_network
+
+  # PostgreSQL 辅助数据库
+  postgresql:
+    image: postgres:15
+    container_name: programming_platform_postgres
+    environment:
+      POSTGRES_DB: programming_platform_analytics
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 8888
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - platform_network
+
+  # MongoDB 文档数据库
+  mongodb:
+    image: mongo:6.0
+    container_name: programming_platform_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 8888
+      MONGO_INITDB_DATABASE: programming_platform_docs
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./database/mongodb/init.js:/docker-entrypoint-initdb.d/init.js
+    networks:
+      - platform_network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: programming_platform_redis
+    command: redis-server --requirepass 8888
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - platform_network
+
+  # Spring Boot 后端应用
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: programming_platform_backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      MYSQL_HOST: mysql
+      POSTGRES_HOST: postgresql
+      MONGODB_HOST: mongodb
+      REDIS_HOST: redis
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - postgresql
+      - mongodb
+      - redis
+    networks:
+      - platform_network
+    volumes:
+      - ./backend/logs:/app/logs
+
+  # Vue.js 前端应用
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: programming_platform_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_BASE_URL: http://backend:8080/api
+    depends_on:
+      - backend
+    networks:
+      - platform_network
+
+  # Java 代码执行环境
+  java-executor:
+    build:
+      context: ./docker/code-execution/java
+      dockerfile: Dockerfile
+    container_name: java_code_executor
+    networks:
+      - platform_network
+    volumes:
+      - /tmp/java-execution:/tmp/execution
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+
+  # Python 代码执行环境
+  python-executor:
+    build:
+      context: ./docker/code-execution/python
+      dockerfile: Dockerfile
+    container_name: python_code_executor
+    networks:
+      - platform_network
+    volumes:
+      - /tmp/python-execution:/tmp/execution
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+
+  # JavaScript/Node.js 代码执行环境
+  nodejs-executor:
+    build:
+      context: ./docker/code-execution/nodejs
+      dockerfile: Dockerfile
+    container_name: nodejs_code_executor
+    networks:
+      - platform_network
+    volumes:
+      - /tmp/nodejs-execution:/tmp/execution
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: programming_platform_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - platform_network
+
+volumes:
+  mysql_data:
+  postgres_data:
+  mongo_data:
+  redis_data:
+
+networks:
+  platform_network:
+    driver: bridge
